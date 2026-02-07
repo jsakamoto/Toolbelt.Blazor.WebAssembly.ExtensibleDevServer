@@ -1,0 +1,37 @@
+<Project>
+  <!-- Toolbelt.Blazor.WebAssembly.ExtensibleDevServer -->
+  <PropertyGroup>
+    <BzExDevSvrServerDll>$(MSBuildThisFileDirectory)../tools/net10.0/driver/blazor-devserver-driver.dll</BzExDevSvrServerDll>
+    <BzExDevSvrCoreServerDll>$(MSBuildThisFileDirectory)../tools/net10.0/server/blazor-devserver.dll</BzExDevSvrCoreServerDll>
+    <BzExDevSvrResponseFilePath>$(MSBuildProjectDirectory)/$(IntermediateOutputPath)blazor-devserver-driver.ini</BzExDevSvrResponseFilePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_BlazorDevServerDll>$(BzExDevSvrServerDll)</_BlazorDevServerDll>
+    <RunCommand>dotnet</RunCommand>
+    <_RunExtraArguments Condition="'$(WasmEnableThreads)' == 'true'">--apply-cop-headers</_RunExtraArguments>
+    <RunArguments>&quot;$(_BlazorDevServerDll)&quot; --devserverpath &quot;$(BzExDevSvrCoreServerDll)&quot; --responsefilepath &quot;$(BzExDevSvrResponseFilePath)&quot; -- --applicationpath &quot;$(TargetPath)&quot; $(_RunExtraArguments)</RunArguments>
+  </PropertyGroup>
+
+  <Target Name="BzExDevSvr_PrepareResponseFile" BeforeTargets="BzExDevSvr_GenerateResponseFile">
+    <ItemGroup>
+      <BzExDevSvrProbingPath Include="$(NuGetPackageRoot)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="BzExDevSvr_GenerateResponseFile" BeforeTargets="Build">
+    <ItemGroup>
+      <BzExDevSvrResponseFileLine Include="[HostingStartupAssemblies]" />
+      <BzExDevSvrResponseFileLine Include="@(BzExDevSvrAssembly)" />
+      <BzExDevSvrResponseFileLine Include="[AdditionalDeps]" />
+      <BzExDevSvrResponseFileLine Include="@(BzExDevSvrDeps)" />
+      <BzExDevSvrResponseFileLine Include="[AdditionalProbingPaths]" />
+      <BzExDevSvrResponseFileLine Include="@(BzExDevSvrProbingPath)" />
+      <BzExDevSvrResponseFileLine Include="[EnvironmentVariables]" />
+      <BzExDevSvrResponseFileLine Include="@(BzExDevSvrEnvValue)" />
+    </ItemGroup>
+
+    <WriteLinesToFile File="$(BzExDevSvrResponseFilePath)" Lines="@(BzExDevSvrResponseFileLine)" Overwrite="true" WriteOnlyWhenDifferent="true" />
+  </Target>
+
+</Project>

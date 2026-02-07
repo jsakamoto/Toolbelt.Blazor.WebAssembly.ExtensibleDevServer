@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <AssemblyName>blazor-devserver-driver</AssemblyName>
+    <PackageId>Toolbelt.Blazor.WebAssembly.ExtensibleDevServer</PackageId>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <PackageTags>blazor,blazor-webassembly,blazorwebassembly,blazorwasm</PackageTags>
+    <PackageReleaseNotes>(Please write the package release notes in "../RELEASE-NOTES.txt")</PackageReleaseNotes>
+    <PackageOutputPath>../_dist</PackageOutputPath>
+    <Description>An alternative Blazor WebAssembly dev server that can be extended with additional NuGet packages for custom middleware.</Description>
+    <PackageIcon>nupkg-icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <Import Project="../VersionInfo.props" />
+  <ItemGroup>
+    <None Include="../.assets/nupkg-icon.png" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="../README.md" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="../LICENSE" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="../THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="PackageContents/**/*" Pack="true" PackagePath="/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineSwitchParser" Version="1.1.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.2" PrivateAssets="all" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec">
+    <ReadLinesFromFile File="../RELEASE-NOTES.txt">
+      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')%0av.0.0</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes.Replace('&lt;','&amp;lt;'))</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes.Replace('&gt;','&amp;gt;'))</PackageReleaseNotes>
+      <PackageReleaseNotes>$([System.Text.RegularExpressions.Regex]::Match($(PackageReleaseNotes), "^(v\.[\d\.]+.+?)v\.[\d\.]+", System.Text.RegularExpressions.RegexOptions.Singleline).Groups[1].Value)</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes)%0aTo see all the change logs, please visit the following URL.%0a- https://github.com/jsakamoto/BrotliLoader.Build/blob/master/RELEASE-NOTES.txt</PackageReleaseNotes>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="BundleAssemblies" BeforeTargets="GenerateNuspec;_GetPackageFiles" AfterTargets="Build">
+    <Exec Command="dotnet build ../ProcessWatcher -c $(Configuration)" />
+    <PropertyGroup>
+      <ProcessWatcherTargetDir>$(MSBuildProjectDirectory)/../ProcessWatcher/bin/$(Configuration)/$(TargetFramework)</ProcessWatcherTargetDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <None Include="$(TargetDir)/*" Exclude="$(TargetDir)*.exe" Pack="true" PackagePath="/tools/$(TargetFramework)/driver" />
+      <None Include="$(ProcessWatcherTargetDir)/*" Exclude="$(ProcessWatcherTargetDir)*.exe" Pack="true" PackagePath="/tools/$(TargetFramework)/driver" />
+      <None Include="$(PKGMicrosoft_AspNetCore_Components_WebAssembly_DevServer)/tools/**/*" Pack="true" PackagePath="/tools/$(TargetFramework)/server" />
+    </ItemGroup>
+  </Target>
+
+</Project>
