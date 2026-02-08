@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <AssemblyName>MyExtension</AssemblyName>
+    <BaseVersion>10.0.2</BaseVersion>
+    <Version>$(BaseVersion)</Version>
+    <PackageIcon>nupkg-icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="nupkg-icon.png" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="README.md" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="PackageContents/**/*" Exclude="PackageContents/**/*.deps.json" Pack="true" PackagePath="/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.9" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="$(BaseVersion)" PrivateAssets="all" />
+  </ItemGroup>
+
+  <Target Name="BundleAssemblies" BeforeTargets="GenerateNuspec;_GetPackageFiles" AfterTargets="Build">
+    <ItemGroup>
+      <None Include="$(TargetDir)/*.dll" Pack="true" PackagePath="/tools/$(TargetFramework)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="GenerateDepsJson" BeforeTargets="GenerateNuspec;_GetPackageFiles" AfterTargets="Build">
+    <ItemGroup>
+      <DepsJsonLine Include="{" />
+      <DepsJsonLine Include="%20 &quot;runtimeTarget&quot;: {" />
+      <DepsJsonLine Include="%20   &quot;name&quot;: &quot;.NETCoreApp,Version=v10.0&quot;," />
+      <DepsJsonLine Include="%20   &quot;signature&quot;: &quot;&quot;" />
+      <DepsJsonLine Include="%20 }," />
+      <DepsJsonLine Include="%20 &quot;compilationOptions&quot;: {}," />
+      <DepsJsonLine Include="%20 &quot;targets&quot;: {" />
+      <DepsJsonLine Include="%20   &quot;.NETCoreApp,Version=v10.0&quot;: {" />
+      <DepsJsonLine Include="%20     &quot;$(AssemblyName)/$(Version)&quot;: {" />
+      <DepsJsonLine Include="%20       &quot;runtime&quot;: {" />
+      <DepsJsonLine Include="%20         &quot;tools/$(TargetFramework)/$(AssemblyName).dll&quot;: {}" />
+      <DepsJsonLine Include="%20       }" />
+      <DepsJsonLine Include="%20     }" />
+      <DepsJsonLine Include="%20   }" />
+      <DepsJsonLine Include="%20 }," />
+      <DepsJsonLine Include="%20 &quot;libraries&quot;: {" />
+      <DepsJsonLine Include="%20   &quot;$(AssemblyName)/$(Version)&quot;: {" />
+      <DepsJsonLine Include="%20     &quot;type&quot;: &quot;project&quot;," />
+      <DepsJsonLine Include="%20     &quot;serviceable&quot;: false," />
+      <DepsJsonLine Include="%20     &quot;sha512&quot;: &quot;&quot;" />
+      <DepsJsonLine Include="%20   }" />
+      <DepsJsonLine Include="%20 }" />
+      <DepsJsonLine Include="}" />
+    </ItemGroup>
+    <WriteLinesToFile File="PackageContents/tools/$(TargetFramework)/$(AssemblyName).deps.json" Lines="@(DepsJsonLine)" Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <None Include="PackageContents/tools/**/*.deps.json" Pack="true" PackagePath="/tools" />
+    </ItemGroup>
+  </Target>
+
+</Project>
