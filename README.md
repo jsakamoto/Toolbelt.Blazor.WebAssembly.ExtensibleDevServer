@@ -52,6 +52,56 @@ dotnet add package <ExtensionPackageName>
 
 That's it. No additional code or configuration is required. The extensions will be automatically loaded by the hosting startup mechanism when you run your project.
 
+## Creating your own extension
+
+You can create your own extension to add custom middleware to the dev server pipeline.
+
+### 1. Install the project template
+
+First, install the extension project template:
+
+```shell
+dotnet new install Toolbelt.Blazor.WebAssembly.ExtensibleDevServer.Extension.ProjectTemplates
+```
+
+### 2. Create a new extension project
+
+Create a new extension project using one of the following methods:
+
+**Using Visual Studio or VS Code with C# Dev Kit:**
+
+Select "Blazor WebAssembly Extensible Dev Server Extension" from the new project templates.
+
+**Or, using the .NET CLI:**
+
+```shell
+dotnet new blazorwasmdevserverextension -n {YourExtensionName}
+```
+
+### 3. Implement your middleware
+
+Open the generated `{YourExtensionName}StartupFilter.cs` file. You'll find a minimal ASP.NET Core middleware implementation that does nothing by default. Modify this to add your desired behavior.
+
+### 4. Build the NuGet package
+
+Package your extension using one of the following methods:
+
+**Using the .NET CLI:**
+
+```shell
+dotnet pack -c Release
+```
+
+**Or, using Visual Studio:**
+
+Right-click the project in Solution Explorer and select "Pack".
+
+This will generate a `{YourExtensionName}.nupkg` file.
+
+### 5. Use your extension
+
+Install your generated NuGet package into a Blazor WebAssembly standalone project alongside `Toolbelt.Blazor.WebAssembly.ExtensibleDevServer`. When you run the project, your custom middleware will be automatically loaded into the dev server's HTTP request pipeline.
+
 ## License and 3rd Party Notices
 
 This project is licensed under the Mozilla Public License v2.0. See the [LICENSE](https://github.com/jsakamoto/Toolbelt.Blazor.WebAssembly.ExtensibleDevServer/blob/main/LICENSE) file for details.
