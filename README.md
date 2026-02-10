@@ -6,14 +6,14 @@ An alternative Blazor WebAssembly dev server that can be extended with additiona
 
 In a standalone Blazor WebAssembly project, the development server is provided by the `Microsoft.AspNetCore.Components.WebAssembly.DevServer` NuGet package. This package works well out of the box, but it does not offer any way to customize or extend the dev server's behavior.
 
-**Toolbelt.Blazor.WebAssembly.ExtensibleDevServer** is a drop-in replacement for that default dev server. By itself, simply replacing the default package with this one does not change any behavior — your project will continue to work exactly as before.
+**Toolbelt.Blazor.WebAssembly.ExtensibleDevServer** is a drop-in replacement for that default dev server. By itself, simply replacing the default package with this one does not change any behavior. Your project will continue to work exactly as before.
 
 The key difference is that this dev server is designed to be **extensible**. It leverages the ASP.NET Core **Hosting Startup** mechanism, allowing additional NuGet packages to inject custom middleware into the dev server pipeline. This means you can install extension packages alongside this one to add new capabilities to your development experience.
 
 ### Examples of possible extensions
 
-- **User Secrets integration** — Merge .NET User Secrets into the `appsettings.json` response served to the client, so secret configuration values are available during development without checking them into source control.
-- **CSP hash rewriting** — Automatically update Content Security Policy hash values in `index.html` to match the actual content, eliminating manual hash maintenance during development.
+- **User Secrets integration**: Merge .NET User Secrets into the `appsettings.json` response served to the client, so secret configuration values are available during development without checking them into source control.
+- **CSP hash rewriting**: Automatically update Content Security Policy hash values in `index.html` to match the actual content, eliminating manual hash maintenance during development.
 
 ## How to use
 
@@ -50,7 +50,7 @@ Then, add any extension packages you need. For example:
 dotnet add package <ExtensionPackageName>
 ```
 
-That's it — no additional code or configuration is required. The extensions will be automatically loaded by the hosting startup mechanism when you run your project.
+That's it. No additional code or configuration is required. The extensions will be automatically loaded by the hosting startup mechanism when you run your project.
 
 ## License and 3rd Party Notices
 
