@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../VersionInfo.props"/>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <NoBuild>true</NoBuild>
@@ -9,8 +11,6 @@
     <PackageOutputPath>..\_dist\</PackageOutputPath>
   </PropertyGroup>
   
-  <Import Project="../VersionInfo.props"/>
-
   <PropertyGroup>
     <PackageVersion>$(Version)</PackageVersion>
   </PropertyGroup>
