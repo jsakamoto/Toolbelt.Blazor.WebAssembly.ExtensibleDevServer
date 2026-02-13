@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v10.0": {
-      "MyExtension/10.0.2": {
+      "myextension/10.0.2": {
         "runtime": {
           "tools/net10.0/MyExtension.dll": {}
         }
@@ -14,7 +14,7 @@
     }
   },
   "libraries": {
-    "MyExtension/10.0.2": {
+    "myextension/10.0.2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
