@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
     <AssemblyName>MyExtension</AssemblyName>
-    <BaseVersion>10.0.2</BaseVersion>
+    <BaseVersion>10.0.3</BaseVersion>
     <Version>$(BaseVersion)</Version>
     <PackageIcon>nupkg-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

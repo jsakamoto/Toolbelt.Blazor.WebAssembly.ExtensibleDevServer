@@ -8,4 +8,6 @@
     <AssemblyName>process-watcher</AssemblyName>
   </PropertyGroup>
 
+  <Import Project="../VersionInfo.props" />
+
 </Project>

@@ -39,7 +39,7 @@ Find the following `PackageReference` in your `.csproj` file:
 and replace it with:
 
 ```xml
-<PackageReference Include="Toolbelt.Blazor.WebAssembly.ExtensibleDevServer" Version="10.0.2-preview.1" PrivateAssets="all" />
+<PackageReference Include="Toolbelt.Blazor.WebAssembly.ExtensibleDevServer" Version="10.0.3" PrivateAssets="all" />
 ```
 
 ### 2. Install extension packages
@@ -81,6 +81,36 @@ dotnet new blazorwasmdevserverextension -n {YourExtensionName}
 ### 3. Implement your middleware
 
 Open the generated `{YourExtensionName}StartupFilter.cs` file. You'll find a minimal ASP.NET Core middleware implementation that does nothing by default. Modify this to add your desired behavior.
+
+```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+
+namespace YourExtensionName;
+
+public class YourExtensionNameStartupFilter : IStartupFilter
+{
+    public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
+    {
+        // Return a registration action that adds middleware to the pipeline
+        return app =>
+        {
+            // Example middleware that does nothing but call the next middleware
+            app.Use(async (context, nextMiddleware) =>
+            {
+                // You can add custom logic here before the next middleware is invoked
+
+                await nextMiddleware();
+
+                // You can add custom logic here after the next middleware has completed
+            });
+
+            // Call the next startup filter in the chain
+            next(app);
+        };
+    }
+}
+```
 
 ### 4. Build the NuGet package
 
