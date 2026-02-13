@@ -1,2 +1,11 @@
 <Solution>
+  <Folder Name="/README/">
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="RELEASE-NOTES.txt" />
+    <File Path="THIRD-PARTY-NOTICES.txt" />
+    <File Path="VersionInfo.props" />
+  </Folder>
+  <Project Path="ExtensibleDevServer/ExtensibleDevServer.csproj" />
+  <Project Path="ProcessWatcher/ProcessWatcher.csproj" />
 </Solution>
