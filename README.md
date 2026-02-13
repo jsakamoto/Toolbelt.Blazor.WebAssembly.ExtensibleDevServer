@@ -1,5 +1,8 @@
 # Blazor WebAssembly Extensible Dev Server
 
+[![NuGet Package](https://img.shields.io/nuget/v/Toolbelt.Blazor.WebAssembly.ExtensibleDevServer.svg)](https://www.nuget.org/packages/Toolbelt.Blazor.WebAssembly.ExtensibleDevServer/) [![Discord](https://img.shields.io/discord/798312431893348414?style=flat&logo=discord&logoColor=white&label=Blazor%20Community&labelColor=5865f2&color=gray)](https://discord.com/channels/798312431893348414/1202165955900473375)
+
+
 An alternative Blazor WebAssembly dev server that can be extended with additional NuGet packages for custom middleware.
 
 ## What is this?
