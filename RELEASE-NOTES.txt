@@ -1,2 +1,5 @@
+v.10.0.11
+- Improve: Updated the underlying Microsoft.AspNetCore.Components.WebAssembly.DevServer dependency to version 10.0.11.
+
 v.10.0.3
 - 1st release.
