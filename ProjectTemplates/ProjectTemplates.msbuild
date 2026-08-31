@@ -7,7 +7,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <NuspecFile>Toolbelt.Blazor.WebAssembly.ExtensibleDevServer.Extension.ProjectTemplates.nuspec</NuspecFile>
+    <NuspecFile>ProjectTemplates.nuspec</NuspecFile>
     <PackageOutputPath>..\_dist\</PackageOutputPath>
   </PropertyGroup>
   
