@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.9" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="$(BaseVersion)" PrivateAssets="all" />
   </ItemGroup>
 
   <Target Name="BundleAssemblies" BeforeTargets="GenerateNuspec;_GetPackageFiles" AfterTargets="Build">
