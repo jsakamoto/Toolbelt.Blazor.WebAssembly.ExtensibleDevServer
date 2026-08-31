@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "toolbelt.blazor.webassembly.extensibledevserver.sampleextension/1.0.0": {
+        "runtime": {
+          "tools/net10.0/Toolbelt.Blazor.WebAssembly.ExtensibleDevServer.SampleExtension.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "toolbelt.blazor.webassembly.extensibledevserver.sampleextension/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

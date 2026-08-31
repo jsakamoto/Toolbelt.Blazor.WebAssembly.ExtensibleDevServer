@@ -7,5 +7,6 @@
     <File Path="VersionInfo.props" />
   </Folder>
   <Project Path="ExtensibleDevServer/ExtensibleDevServer.csproj" />
+  <Project Path="ExtensibleDevServer.Test/ExtensibleDevServer.Test.csproj" />
   <Project Path="ProcessWatcher/ProcessWatcher.csproj" />
 </Solution>
