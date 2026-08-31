@@ -6,8 +6,7 @@
     <Nullable>enable</Nullable>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
     <AssemblyName>MyExtension</AssemblyName>
-    <BaseVersion>10.0.3</BaseVersion>
-    <Version>$(BaseVersion)</Version>
+    <Version>1.0.0</Version>
     <PackageIcon>nupkg-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <DevelopmentDependency>true</DevelopmentDependency>
@@ -21,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.9" PrivateAssets="all" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" PrivateAssets="all" />
   </ItemGroup>
 
   <Target Name="BundleAssemblies" BeforeTargets="GenerateNuspec;_GetPackageFiles" AfterTargets="Build">
