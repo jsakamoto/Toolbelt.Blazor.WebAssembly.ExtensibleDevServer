@@ -1,6 +1,6 @@
 <Project>
 
-  <Target Name="BzExDevSvr_MyExtension_PrepareResponseFile" BeforeTargets="BzExDevSvr_GenerateResponseFile">
+  <Target Name="BzExGateway_MyExtensionSafe_PrepareResponseFile" BeforeTargets="BzExDevSvr_GenerateResponseFile">
     <ItemGroup>
       <BzExDevSvrAssembly Include="MyExtension" />
       <BzExDevSvrDeps Include="$(MSBuildThisFileDirectory)../tools/net10.0/MyExtension.deps.json" />

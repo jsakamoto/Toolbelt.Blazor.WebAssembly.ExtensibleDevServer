@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace MyExtension;
 
-public class MyExtensionStartupFilter : IStartupFilter
+public class MyExtensionSafeStartupFilter : IStartupFilter
 {
     public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
     {

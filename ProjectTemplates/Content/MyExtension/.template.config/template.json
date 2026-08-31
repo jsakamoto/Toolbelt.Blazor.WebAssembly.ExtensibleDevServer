@@ -1,11 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "J.Sakamoto",
-  "classifications": [
-    "Web",
-    "Blazor",
-    "WebAssembly"
-  ],
+  "classifications": ["Web", "Blazor", "WebAssembly"],
   "groupIdentity": "BlazorWasmDevServerExtension",
   "identity": "BlazorWasmDevServerExtension.CSharp.1.0",
   "precedence": "7000",
@@ -28,22 +24,31 @@
       "datatype": "bool",
       "description": "If specified, skips the automatic restore of the project on create.",
       "defaultValue": "false"
+    },
+    "MyExtensionSafe": {
+      "type": "generated",
+      "generator": "regex",
+      "dataType": "string",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          { "regex": "^.*\\.", "replacement": "" },
+          { "regex": "\\W", "replacement": "_" }
+        ]
+      },
+      "replaces": "MyExtensionSafe",
+      "fileRename": "MyExtensionSafe"
     }
   },
-  "guids": [
-  ],
+  "guids": [],
   "sourceName": "MyExtension",
   "sources": [
     {
       "source": "./",
       "target": "./",
-      "exclude": [
-        ".template.config/**"
-      ],
-      "copyOnly": [
-      ],
-      "modifiers": [
-      ]
+      "exclude": [".template.config/**"],
+      "copyOnly": [],
+      "modifiers": []
     }
   ],
   "primaryOutputs": [
