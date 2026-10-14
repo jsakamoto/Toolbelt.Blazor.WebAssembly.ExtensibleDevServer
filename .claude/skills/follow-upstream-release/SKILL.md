@@ -31,14 +31,32 @@ with no other change. Follow that convention unless the user says otherwise.
    v.X.Y.Z
    - Improve: Updated the underlying Microsoft.AspNetCore.Components.WebAssembly.DevServer dependency to version X.Y.Z.
    ```
-4. Check the E2E test container's SDK image. `ExtensibleDevServer.Test/ProjectTemplateE2ETests.cs`
-   and `ExtensibleDevServer.Test/SampleAppE2ETests.cs` each pin an exact
-   `mcr.microsoft.com/dotnet/sdk:X.Y.Z` tag. If the SDK that will actually build the package locally
-   (`dotnet --version`) is newer than that pinned tag, bump the tag to match (or newer) — otherwise
-   the container fails at runtime with "You must install or update .NET to run this application."
-   This is a separate axis from the DevServer package version; don't assume bumping one bumps the
-   other.
-5. Build and test:
+4. Raise the E2E test container's SDK image to the latest .NET 10 SDK, every time, without waiting
+   for a failure. `ExtensibleDevServer.Test/ProjectTemplateE2ETests.cs` and
+   `ExtensibleDevServer.Test/SampleAppE2ETests.cs` each pin an exact
+   `mcr.microsoft.com/dotnet/sdk:X.Y.Z` tag. Find the newest published one:
+   ```
+   curl -s https://mcr.microsoft.com/v2/dotnet/sdk/tags/list | tr ',' '\n' | tr -d '"[] ' | grep -E '^10\.0\.[0-9]+$' | sort -V | tail -1
+   ```
+   - Set both files to that tag, then `docker pull mcr.microsoft.com/dotnet/sdk:<tag>`.
+   - The tag must never be older than the SDK that builds the package locally (`dotnet --version`);
+     otherwise the container fails at runtime with "You must install or update .NET to run this
+     application."
+   - This is a separate axis from the DevServer package version; don't assume bumping one bumps the
+     other.
+5. Update the NuGet packages referenced by `ExtensibleDevServer.Test/ExtensibleDevServer.Test.csproj`
+   to the latest stable versions available at that moment (see the `dotnet-test-projects` skill):
+   ```
+   dotnet list ./ExtensibleDevServer.Test/ExtensibleDevServer.Test.csproj package --outdated
+   ```
+   - Bump every `PackageReference` it reports, including `NUnit`, `NUnit3TestAdapter`,
+     `Microsoft.NET.Test.Sdk`, `Testcontainers`, `ChainingAssertion-NUnit.Bin`, `XProcess`, and the
+     `Toolbelt.*` packages. If the command cannot reach a package, check the nuget.org flat-container
+     index JSON instead.
+   - Do not touch the stock DevServer reference here; step 2 owns it.
+   - If a bump needs a test code change, or a package has no stable release for the new setup, report
+     it rather than silently swapping in a replacement.
+6. Build and test:
    ```
    dotnet pack -c Release
    dotnet test --project ./ExtensibleDevServer.Test/ExtensibleDevServer.Test.csproj --output detailed
@@ -56,7 +74,7 @@ half of the work — run this repository's bump and tests first, then theirs, in
 
 If an extension's test needs an `ExtensibleDevServer` version that isn't published on nuget.org yet,
 they read it from a manually-populated `_local-packages` folder instead — see each extension's
-`AGENTS.md` for that mechanism. After packing this repository (step 5 above), copy the resulting
+`AGENTS.md` for that mechanism. After packing this repository (step 6 above), copy the resulting
 `.nupkg` from this repo's `_dist/` folder into the other repo's `_local-packages/` folder.
 
 ## Gotchas
